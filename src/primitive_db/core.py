@@ -48,7 +48,7 @@ def insert(metadata, table_name, values):
     columns_without_id = [col for col in schema if not col.startswith("ID:")]
 
     if len(values) != len(columns_without_id):
-        return None, f"Ошибка: Неверное количество значений. Ожидалось {len(columns_without_id)}."
+        return None, f" Неверное количество. Ожидалось {len(columns_without_id)}."
 
     new_record = {}
     for i, col in enumerate(columns_without_id):
@@ -81,7 +81,10 @@ def select(table_data, where_clause=None):
 
     if where_clause:
         col_name, col_value = list(where_clause.items())[0]
-        filtered_data = [row for row in table_data if str(row.get(col_name)) == str(col_value)]
+        filtered_data = [
+            row for row in table_data
+            if str(row.get(col_name)) == str(col_value)
+        ]
 
     if not filtered_data:
         return filtered_data, "Нет данных, удовлетворяющих условию."

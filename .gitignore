@@ -9,3 +9,4 @@ wheels/
 .venv
 .idea/
 .python-version
+src/primitive_db/tests.py
