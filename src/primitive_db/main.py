@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 
+from primitive_db.engine import welcome
+
 def main():
-    print("Hello from primitive_db!")
+    welcome()
 
 if __name__ == "__main__":
     main()
