@@ -17,7 +17,8 @@ def print_help():
     print("<command> insert into <имя_таблицы> values (<значение1>, <значение2>, ...) - создать запись")
     print("<command> select from <имя_таблицы> - прочитать все записи")
     print("<command> select from <имя_таблицы> where <столбец> = <значение> - прочитать записи по условию")
-    print("<command> update <имя_таблицы> set <столбец> = <значение> where <столбец> = <значение> - обновить запись")
+    print("<command> update <имя_таблицы> set <столбец> = <значение> \
+    where <столбец> = <значение> - обновить запись")
     print("<command> delete from <имя_таблицы> where <столбец> = <значение> - удалить запись")
     print("\nОбщие команды:")
     print("<command> exit - выход из программы")
