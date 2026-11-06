@@ -1,6 +1,9 @@
 from prettytable import PrettyTable
+from primitive_db.decorators import handle_db_errors, confirm_action, log_time
 
 
+@log_time
+@handle_db_errors
 def create_table(metadata, table_name, columns):
     """создает новую таблицу в базе данных"""
     if table_name in metadata:
@@ -22,6 +25,8 @@ def create_table(metadata, table_name, columns):
     return f"Таблица '{table_name}' успешно создана со столбцами: {', '.join(columns)}"
 
 
+@confirm_action("удаление таблицы")
+@handle_db_errors
 def drop_table(metadata, table_name):
     """удаляет таблицу из базы данных"""
     if table_name not in metadata:
@@ -32,13 +37,15 @@ def drop_table(metadata, table_name):
 
 
 def list_tables(metadata):
-    """озвращает список таблиц"""
+    """возвращает список таблиц"""
     if not metadata:
         return "В базе данных пока нет таблиц."
 
     return "\n".join([f"- {table}" for table in metadata.keys()])
 
 
+@log_time
+@handle_db_errors
 def insert(metadata, table_name, values):
     """проверяет и подготавливает новую запись для таблицы"""
     if table_name not in metadata:
@@ -56,17 +63,14 @@ def insert(metadata, table_name, values):
         val = values[i]
 
         if col_type == "int":
-            try:
-                val = int(val)
-            except ValueError:
-                return None, f"Ошибка: Значение '{val}' не является целым числом."
+            val = int(val)
         elif col_type == "bool":
             if str(val).lower() in ("true", "1"):
                 val = True
             elif str(val).lower() in ("false", "0"):
                 val = False
             else:
-                return None, f"Ошибка: Значение '{val}' не является boolean."
+                raise ValueError(f"Значение '{val}' не является boolean.")
         elif col_type == "str":
             val = str(val)
 
@@ -75,6 +79,8 @@ def insert(metadata, table_name, values):
     return new_record, None
 
 
+@log_time
+@handle_db_errors
 def select(table_data, where_clause=None):
     """фильтрует данные и возвращает их в виде таблицы"""
     filtered_data = table_data
@@ -98,6 +104,8 @@ def select(table_data, where_clause=None):
     return filtered_data, table.get_string()
 
 
+@log_time
+@handle_db_errors
 def update(table_data, set_clause, where_clause):
     """обновляет записи по условию"""
     updated_count = 0
@@ -119,6 +127,8 @@ def update(table_data, set_clause, where_clause):
     return table_data, f"Записей обновлено: {updated_count}."
 
 
+@confirm_action("удаление записей")
+@handle_db_errors
 def delete(table_data, where_clause):
     """удаляет записи по условию"""
     where_col, where_val = list(where_clause.items())[0]
