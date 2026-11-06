@@ -1,5 +1,6 @@
 from prettytable import PrettyTable
-from primitive_db.decorators import handle_db_errors, confirm_action, log_time
+
+from primitive_db.decorators import confirm_action, handle_db_errors, log_time
 
 
 @log_time
